@@ -48,6 +48,19 @@ jobs:
 #         git remote add heroku https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git
 #         git push heroku HEAD:master -f
 
+  njsscan:
+    needs: build
+    runs-on: ubuntu-latest
+    name: njsscan check [SAST]
+    steps:
+    - name: Checkout the code
+      uses: actions/checkout@v2
+    - name: nodejsscan scan
+      id: njsscan
+      uses: ajinabraham/njsscan-action@master
+      with:
+        args: '.'
+        
   deploy:
     needs: build
     runs-on: ubuntu-latest
